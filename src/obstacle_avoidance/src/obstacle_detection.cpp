@@ -11,13 +11,20 @@
 
 int main(int argc, char **argv)
 {
-  
+
   ros::init(argc, argv, "obstacle_detection");
   ros::NodeHandle nh;
 
-  //ros::Subscriber sub = nh.subscribe("chatter", 1000, chatterCallback);
-  //ros::spin();
-  //ROS_INFO_STREAM_NAMED("demo_sendscript", "shutdown.");
+  ros::Publisher pub = nh.advertise<tm_msgs::ObstacleDetected>("tm_driver/obstacle_detected", 1);
+  tm_msgs::ObstacleDetected msg;
+  msg.obstacle_detected = true;
+  ROS_INFO_STREAM("invio msg");
+  pub.publish(msg);
+  ros::spin();
+
+
+
+
   return 0;
 
 }

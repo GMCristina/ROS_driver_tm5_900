@@ -1,3 +1,1 @@
-bool obstacle_detected       # flag
-
-
+bool obstacle_detected      # flag

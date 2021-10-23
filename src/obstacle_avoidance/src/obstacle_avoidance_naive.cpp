@@ -13,6 +13,7 @@ int main(int argc, char **argv)
 {
   //std::string cmd = "PTP(\"JPP\",0,0,90,0,90,0,35,200,0,false)";
   std::string cmd = "StopAndClearBuffer()";
+  std::string cmd2 = "StopAndClearBuffer()\r\nResume()\r\nPTP(\"JPP\",0,0,0,0,0,0,35,200,0,false)";
 
   ros::init(argc, argv, "obstacle_avoidance_naive");
   ros::NodeHandle nh;
