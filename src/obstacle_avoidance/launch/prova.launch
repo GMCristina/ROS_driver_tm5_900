@@ -1,0 +1,4 @@
+<launch>
+  <node name="obstacle_detection" pkg="obstacle_avoidance" type="obstacle_detection" respawn="false" output="screen" />
+  <node name="obstacle_avoidance_naive2" pkg="obstacle_avoidance" type="obstacle_avoidance_naive2" respawn="false" output="screen" />
+</launch>

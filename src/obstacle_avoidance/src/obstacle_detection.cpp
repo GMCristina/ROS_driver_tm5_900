@@ -16,11 +16,15 @@ int main(int argc, char **argv)
   ros::NodeHandle nh;
 
   ros::Publisher pub = nh.advertise<tm_msgs::ObstacleDetected>("tm_driver/obstacle_detected", 1);
+  while (pub.getNumSubscribers() < 1) {
+    ros::WallDuration sleep_t(0.5);
+    sleep_t.sleep();
+  }
   tm_msgs::ObstacleDetected msg;
   msg.obstacle_detected = true;
-  ROS_INFO_STREAM("invio msg");
   pub.publish(msg);
-  ros::spin();
+  ROS_INFO_STREAM("Inviato messaggio obstacle_detected");
+  //ros::spin();
 
 
 

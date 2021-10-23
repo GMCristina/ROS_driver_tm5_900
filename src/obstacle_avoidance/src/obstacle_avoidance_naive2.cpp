@@ -14,7 +14,8 @@
 
 void ObstacleDetectedCallback(ros::NodeHandle &nh, const tm_msgs::ObstacleDetected::ConstPtr& msg)
   {
-    ROS_INFO_STREAM("ObstacleDetected: " << msg->obstacle_detected);
+    std::string flag = msg->obstacle_detected ? "true" : "false";
+    ROS_INFO_STREAM("Ricevuto messaggio ObstacleDetected: " << flag );
     if(msg->obstacle_detected)
     {
       //std::string cmd = "PTP(\"JPP\",0,0,90,0,90,0,35,200,0,false)";
@@ -44,8 +45,8 @@ int main(int argc, char **argv)
 
   ros::init(argc, argv, "obstacle_avoidance_naive2");
   ros::NodeHandle nh;
-
-  ros::Subscriber sub = nh.subscribe("tm_driver/obstacle_detected", 5, (boost::bind(&ObstacleDetectedCallback, boost::ref(nh), _1)));
+//  ros::Subscriber sub = nh.subscribe("tm_driver/obstacle_detected", 5, boost::bind(ObstacleDetectedCallback, &nh, _1));
+    ros::Subscriber sub = nh.subscribe<tm_msgs::ObstacleDetected>("tm_driver/obstacle_detected", 5, boost::bind(&ObstacleDetectedCallback, boost::ref(nh), _1));
   ros::spin();
 
 
