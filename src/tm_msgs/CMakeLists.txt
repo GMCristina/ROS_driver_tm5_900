@@ -14,6 +14,8 @@ add_message_files(
   SvrResponse.msg
   SctResponse.msg
   StaResponse.msg
+  ObstacleDetected.msg
+  
 )
 
 ## Generate services in the 'srv' folder
