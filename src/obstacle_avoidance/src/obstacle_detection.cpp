@@ -17,9 +17,11 @@ int main(int argc, char **argv)
 
   ros::Publisher pub = nh.advertise<tm_msgs::ObstacleDetected>("tm_driver/obstacle_detected", 1);
   while (pub.getNumSubscribers() < 1) {
-    ros::WallDuration sleep_t(0.5);
+    ros::WallDuration sleep_t(0.3);
     sleep_t.sleep();
+    ROS_INFO_STREAM("wait for publisher");
   }
+  // ros::Duration(10).sleep();
   tm_msgs::ObstacleDetected msg;
   msg.obstacle_detected = true;
   pub.publish(msg);
