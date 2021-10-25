@@ -19,8 +19,9 @@ void ObstacleDetectedCallback(ros::NodeHandle &nh, const tm_msgs::ObstacleDetect
     if(msg->obstacle_detected)
     {
       //std::string cmd = "PTP(\"JPP\",0,0,90,0,90,0,35,200,0,false)";
-      std::string cmd = "Pause()";
-      ros::ServiceClient client = nh.serviceClient<tm_msgs::SendScript>("tm_driver/obstacle_avoidance_naive2");
+      std::string cmd2 = "StopAndClearBuffer()";
+      std::string cmd = "StopAndClearBuffer()\r\nPTP(\"JPP\",0,0,0,0,0,0,10,200,0,false)";
+      ros::ServiceClient client = nh.serviceClient<tm_msgs::SendScript>("tm_driver/send_script");
       tm_msgs::SendScript srv;
 
       //Request

@@ -33,7 +33,7 @@ bool TmRosNode::connect_tm(tm_msgs::ConnectTMRequest &req, tm_msgs::ConnectTMRes
             {
                 pub_reconnect_timeout_ms_ = t_o;
                 pub_reconnect_timeval_ms_ = t_v;
-            }	
+            }
             ROS_INFO_STREAM("TM_ROS: set TM_SVR reconnect timeout " << (int)pub_reconnect_timeout_ms_ << "ms, timeval " << (int)pub_reconnect_timeval_ms_ << "ms");
         }
         else {
@@ -55,13 +55,13 @@ bool TmRosNode::connect_tm(tm_msgs::ConnectTMRequest &req, tm_msgs::ConnectTMRes
                 sct_reconnect_timeval_ms_ = 3000;
                 connect_recovery_is_halt = false;
                 rb = iface_.sct.start_tm_sct(5000);
-                ROS_INFO_STREAM("TM_ROS: TM_SCT resume connection recovery");                					
+                ROS_INFO_STREAM("TM_ROS: TM_SCT resume connection recovery");
             }
             else
-            {				
+            {
                 sct_reconnect_timeout_ms_ = t_o;
                 sct_reconnect_timeval_ms_ = t_v;
-            }			
+            }
             ROS_INFO_STREAM("TM_ROS: set TM_SCT reconnect timeout " << (int)t_o << "ms, timeval " << (int)t_v << "ms");
         }
         else {
@@ -208,4 +208,3 @@ bool TmRosNode::ask_sta(tm_msgs::AskStaRequest &req, tm_msgs::AskStaResponse &re
     res.ok = ask_sta_struct(req.subcmd, req.subdata, req.wait_time, res.subcmd, res.subdata);
     return res.ok;
 }
-
