@@ -16,18 +16,18 @@ int main(int argc, char **argv)
   ros::NodeHandle nh;
 
   ros::Publisher pub = nh.advertise<tm_msgs::ObstacleDetected>("tm_driver/obstacle_detected", 1);
-  while (pub.getNumSubscribers() < 1) {
+  while (pub.getNumSubscribers() < 1) { //serve per aspettare che si crei la connessione (senza no msg)
     ros::WallDuration sleep_t(0.5);
     sleep_t.sleep();
-    ROS_INFO_STREAM("wait for publisher");
+    ROS_INFO_STREAM("OB DETECTED: wait for publisher");
   }
-  // ros::Duration(10).sleep();
+
   tm_msgs::ObstacleDetected msg;
   msg.obstacle_detected = true;
   pub.publish(msg);
-  ROS_INFO_STREAM("Inviato messaggio obstacle_detected");
-  ros::spin();
-
+  ROS_INFO_STREAM("OB DETECTED: Inviato messaggio obstacle_detected");
+  //ros::spin();
+  ros::Duration(1).sleep(); //serve per dargli tempo di inviare il msg (senza no msg)
 
 
 

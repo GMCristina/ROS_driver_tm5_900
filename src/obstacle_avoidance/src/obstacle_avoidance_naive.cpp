@@ -13,9 +13,9 @@ int main(int argc, char **argv)
 {
   //std::string cmd = "PTP(\"JPP\",0,0,90,0,90,0,35,200,0,false)";
   std::string cmd = "StopAndClearBuffer()";
-  std::string cmd2 = "StopAndClearBuffer()\r\nResume()\r\nPTP(\"JPP\",0,0,0,0,0,0,35,200,0,false)";
-  std::string cmd3 = "Move_PTP(\"JPP\",90,0,0,0,0,0,5,200,0,false)";
-  std::string cmd4 = "Move_PTP(\"JPP\",0,0,0,0,0,180,5,200,0,false)";
+  std::string cmd2 = "StopAndClearBuffer()\r\nResume()\r\nPTP(\"JPP\",0,0,0,0,0,0,35,200,0,false)"; //home
+  std::string cmd3 = "Move_PTP(\"JPP\",90,0,0,0,0,0,5,200,0,false)"; // J1 (spalla1)
+  std::string cmd4 = "Move_PTP(\"JPP\",0,0,0,0,0,180,5,200,0,false)"; // J6 (polso3)
 
   ros::init(argc, argv, "obstacle_avoidance_naive");
   ros::NodeHandle nh;
@@ -24,7 +24,7 @@ int main(int argc, char **argv)
 
   //Request
   srv.request.id = "obs";
-  srv.request.script = cmd4;
+  srv.request.script = cmd;
 
 
   if (client.call(srv))

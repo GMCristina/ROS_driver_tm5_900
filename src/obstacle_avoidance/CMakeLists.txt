@@ -138,6 +138,7 @@ include_directories(
 #add_executable(${PROJECT_NAME}_node src/obstacle_avoidance_node.cpp)
 add_executable(obstacle_avoidance_naive src/obstacle_avoidance_naive.cpp)
 add_executable(obstacle_avoidance_naive2 src/obstacle_avoidance_naive2.cpp)
+add_executable(obstacle_avoidance_naive3 src/obstacle_avoidance_naive3.cpp)
 add_executable(obstacle_detection src/obstacle_detection.cpp)
 add_executable(loop_trajectory src/loop_trajectory.cpp)
 
@@ -152,6 +153,7 @@ add_executable(loop_trajectory src/loop_trajectory.cpp)
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(obstacle_avoidance_naive ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(obstacle_avoidance_naive2 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(obstacle_avoidance_naive3 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(obstacle_detection ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(loop_trajectory ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
@@ -163,6 +165,9 @@ add_dependencies(loop_trajectory ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EX
    ${catkin_LIBRARIES}
  )
  target_link_libraries(obstacle_avoidance_naive2
+   ${catkin_LIBRARIES}
+ )
+ target_link_libraries(obstacle_avoidance_naive3
    ${catkin_LIBRARIES}
  )
  target_link_libraries(obstacle_detection
