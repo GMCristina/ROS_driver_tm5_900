@@ -46,39 +46,51 @@ int main(int argc, char **argv)
   ros::ServiceClient client = nh.serviceClient<tm_msgs::SendScript>("tm_driver/send_script");
   tm_msgs::SendScript srv;
 
-  std::string cmd = "Move_PTP(\"JPP\",90,0,0,0,0,0,5,200,0,false)\r\nMove_PTP(\"JPP\",-90,0,0,0,0,0,5,200,0,false)";
-  std::string cmd2 = "Move_PTP(\"JPP\",90,0,0,0,0,0,5,200,0,false)\r\nMove_PTP(\"JPP\",-90,0,0,0,0,0,5,200,0,false)\r\nQueueTag(1)";
+
+  //std::string cmd2 = "Move_PTP(\"JPP\",90,0,0,0,0,0,5,200,0,false)\r\nMove_PTP(\"JPP\",-90,0,0,0,0,0,5,200,0,false)\r\nQueueTag(1)";
+  std::stringstream ss;
+	//ss << std::fixed << std::setprecision(precision);
+  ss << "PTP(\"JPP\",-10.88,23.75,86.66,-18.56,92.41,0,5,200,0,false)\r\n";
+  ss << "PTP(\"JPP\",-10.88,3.23,86.66,-4.20,92.41,0,5,200,0,false)\r\n";
+  ss << "PTP(\"JPP\",28.38,3.23,86.66,-4.20,92.41,0,5,200,0,false)\r\n";
+  ss << "PTP(\"JPP\",28.38,23.75,86.66,-18.56,92.41,0,5,200,0,false)\r\n";
+  ss << "PTP(\"JPP\",0,0,0,0,0,0,5,200,0,false)\r\n";
+  ss << "QueueTag(1)";
+  std::string cmd2 = ss.str();
+  ROS_INFO_STREAM("PICK Comando: " << cmd2);
+
+
   srv.request.id = "trajec";
   srv.request.script = cmd2;
-  ROS_INFO_STREAM("LOOP: Invio primo comando...");
+  ROS_INFO_STREAM("PICK: Invio primo comando...");
   if (client.call(srv))
   {
-    if (srv.response.ok) ROS_INFO_STREAM("LOOP: Sent script to robot");
+    if (srv.response.ok) ROS_INFO_STREAM("PICK: Sent script to robot");
     else ROS_WARN_STREAM("Sent script to robot , but response not yet ok ");
   }
   else
   {
-    ROS_ERROR_STREAM("LOOP: Error send script to robot");
+    ROS_ERROR_STREAM("PICK: Error send script to robot");
   //  return 1;
   }
 
   while(flag_loop) {
       if(flag_done){
-            ROS_INFO_STREAM("LOOP: Nuovo comando traiettoria");
+            ROS_INFO_STREAM("PICK: Nuovo comando traiettoria");
             ros::spinOnce();
             if (client.call(srv))
             {
-              if (srv.response.ok) ROS_INFO_STREAM("LOOP: Sent script to robot");
+              if (srv.response.ok) ROS_INFO_STREAM("PICK: Sent script to robot");
               else ROS_WARN_STREAM("Sent script to robot , but response not yet ok ");
             }
             else
             {
-              ROS_ERROR_STREAM("LOOP: Error send script to robot");
+              ROS_ERROR_STREAM("PICK: Error send script to robot");
             //  return 1;
             }
             flag_done = false;
       } else {
-        ROS_INFO_STREAM("LOOP: Attesa comando eseguito");
+        ROS_INFO_STREAM("PICK: Attesa comando eseguito");
         ros::spinOnce();
         ros::Duration(0.5).sleep();
       }
@@ -86,7 +98,7 @@ int main(int argc, char **argv)
     ros::spinOnce(); //controllare!
 
   }
-    ROS_INFO_STREAM("LOOP: loop trajectory killed");
+    ROS_INFO_STREAM("PICK: loop trajectory killed");
     return 0;
 
 }

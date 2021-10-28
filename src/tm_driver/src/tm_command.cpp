@@ -108,8 +108,11 @@ std::string TmCommand::set_pvt_traj(const TmPvtTraj &pvts, int precision)
 		for (auto &point : pvts.points) {
 			ss << "PVTPoint(";
 			for (auto &value : point.positions) { ss << deg(value) << ","; }
-			for (auto &value : point.velocities) { ss << deg(value) << ","; }
-			ss << point.time << ")\r\n";
+			//for (auto &value : point.velocities) { ss << deg(value) << ","; }
+			for (auto &value : point.velocities) { double vel_scaled = 12*deg(value); ss << vel_scaled << ","; }
+			//ss << point.time << ")\r\n";
+			double scaled_time = point.time/12;
+			ss << scaled_time << ")\r\n";
 		}
 	}
 	else {
@@ -124,5 +127,6 @@ std::string TmCommand::set_pvt_traj(const TmPvtTraj &pvts, int precision)
 		}
 	}
 	ss << "PVTExit()";
+	//ROS_INFO_STREAM("Comando: "<<ss.str());
 	return ss.str();
 }

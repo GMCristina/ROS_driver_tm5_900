@@ -27,7 +27,7 @@ void ObstacleDetectedCallback(ros::NodeHandle &nh, const tm_msgs::ObstacleDetect
       ros::ServiceClient client = nh.serviceClient<tm_msgs::SendScript>("tm_driver/send_script");
       tm_msgs::SendScript srv;
 
-      srv.request.id = "pause";
+      srv.request.id = "Obs";
       srv.request.script = cmd;
 
       if (client.call(srv))

@@ -25,7 +25,7 @@ void ObstacleDetectedCallback(ros::NodeHandle &nh, const tm_msgs::ObstacleDetect
       ros::ServiceClient client = nh.serviceClient<tm_msgs::SendScript>("tm_driver/send_script");
       tm_msgs::SendScript srv;
 
-      srv.request.id = "pause";
+      srv.request.id = "obs1";
       srv.request.script = cmd2;
 
       if (client.call(srv))
@@ -54,7 +54,7 @@ void ObstacleDetectedCallback(ros::NodeHandle &nh, const tm_msgs::ObstacleDetect
               attesa = true;
             }
       }
-      ros::Duration(1).sleep();
+      ros::Duration(0.5).sleep();
     }
     ROS_INFO_STREAM("NAIVE3: Loop terminato, send Clear and home...");
 
@@ -62,10 +62,10 @@ void ObstacleDetectedCallback(ros::NodeHandle &nh, const tm_msgs::ObstacleDetect
     ros::ServiceClient client1 = nh.serviceClient<tm_msgs::SendScript>("tm_driver/send_script");
     tm_msgs::SendScript srv1;
 
-    srv1.request.id = "pause";
+    srv1.request.id = "obs2";
     srv1.request.script = cmd;
 
-    if (client1.call(srv))
+    if (client1.call(srv1))
     {
       if (srv1.response.ok) ROS_INFO_STREAM("NAIVE3: Sent script to robot");
       else ROS_WARN_STREAM("Sent script to robot , but response not yet ok ");
