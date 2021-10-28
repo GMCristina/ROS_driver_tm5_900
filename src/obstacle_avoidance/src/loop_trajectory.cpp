@@ -34,11 +34,16 @@ void StaResponseCallback(bool* flag_done_p, const tm_msgs::StaResponse::ConstPtr
 int main(int argc, char **argv)
 {
 
+
   bool flag_loop = true;
   bool flag_done = false;
 
   ros::init(argc, argv, "loop_trajectory");
   ros::NodeHandle nh;
+
+  ROS_INFO_STREAM("LOOP: attesa connessione...");
+  ros::Duration(1).sleep();
+  ROS_INFO_STREAM("LOOP: inizio..");
 
   ros::Subscriber sub = nh.subscribe<tm_msgs::ObstacleDetected>("tm_driver/obstacle_detected", 5, boost::bind(&KillCallback,&flag_loop, boost::ref(nh), _1));
   ros::Subscriber sub2 = nh.subscribe<tm_msgs::StaResponse>("tm_driver/sta_response", 1000, boost::bind(&StaResponseCallback,&flag_done,_1));
@@ -80,7 +85,7 @@ int main(int argc, char **argv)
       } else {
         ROS_INFO_STREAM("LOOP: Attesa comando eseguito");
         ros::spinOnce();
-        ros::Duration(0.5).sleep();
+        ros::Duration(1).sleep();
       }
     // ros::Duration(20).sleep();
     ros::spinOnce(); //controllare!

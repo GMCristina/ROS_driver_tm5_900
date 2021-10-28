@@ -4,5 +4,5 @@
 		<param name="robot_ip_address" type="str" value="169.254.77.215" />
 	</node>
 	 <node name="pick_place" pkg="obstacle_avoidance" type="pick_place" respawn="false" output="screen" />
-	<node name="obstacle_avoidance_naive3" pkg="obstacle_avoidance" type="obstacle_avoidance_naive3" respawn="false" output="screen" />
+	<node name="obstacle_avoidance_naive_pick" pkg="obstacle_avoidance" type="obstacle_avoidance_naive_pick" respawn="false" output="screen" />
 </launch>
