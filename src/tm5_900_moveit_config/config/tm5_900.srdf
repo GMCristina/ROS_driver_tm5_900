@@ -53,7 +53,7 @@
         <joint name="wrist_2_joint" value="-1.5708" />
         <joint name="wrist_3_joint" value="0" />
     </group_state>
-    <group_state name="prova" group="manipulator">
+    <group_state name="J1_90" group="manipulator">
         <joint name="elbow_joint" value="0" />
         <joint name="shoulder_1_joint" value="1.5708" />
         <joint name="shoulder_2_joint" value="0" />
@@ -61,12 +61,44 @@
         <joint name="wrist_2_joint" value="0" />
         <joint name="wrist_3_joint" value="0" />
     </group_state>
-    <group_state name="questo" group="manipulator">
+    <group_state name="J3_90" group="manipulator">
         <joint name="elbow_joint" value="1.5708" />
         <joint name="shoulder_1_joint" value="0" />
         <joint name="shoulder_2_joint" value="0" />
         <joint name="wrist_1_joint" value="0" />
         <joint name="wrist_2_joint" value="0" />
+        <joint name="wrist_3_joint" value="0" />
+    </group_state>
+    <group_state name="Pick1" group="manipulator">
+        <joint name="elbow_joint" value="1.5125" />
+        <joint name="shoulder_1_joint" value="-0.1899" />
+        <joint name="shoulder_2_joint" value="0.4145" />
+        <joint name="wrist_1_joint" value="-0.3239" />
+        <joint name="wrist_2_joint" value="1.6129" />
+        <joint name="wrist_3_joint" value="0" />
+    </group_state>
+    <group_state name="Pick2" group="manipulator">
+        <joint name="elbow_joint" value="1.5125" />
+        <joint name="shoulder_1_joint" value="-0.1899" />
+        <joint name="shoulder_2_joint" value="0.0564" />
+        <joint name="wrist_1_joint" value="-0.0733" />
+        <joint name="wrist_2_joint" value="1.6129" />
+        <joint name="wrist_3_joint" value="0" />
+    </group_state>
+    <group_state name="Pick3" group="manipulator">
+        <joint name="elbow_joint" value="1.5125" />
+        <joint name="shoulder_1_joint" value="0.4953" />
+        <joint name="shoulder_2_joint" value="0.0564" />
+        <joint name="wrist_1_joint" value="-0.0733" />
+        <joint name="wrist_2_joint" value="1.6129" />
+        <joint name="wrist_3_joint" value="0" />
+    </group_state>
+    <group_state name="Pick4" group="manipulator">
+        <joint name="elbow_joint" value="1.5125" />
+        <joint name="shoulder_1_joint" value="0.4953" />
+        <joint name="shoulder_2_joint" value="0.4145" />
+        <joint name="wrist_1_joint" value="-0.3239" />
+        <joint name="wrist_2_joint" value="1.6129" />
         <joint name="wrist_3_joint" value="0" />
     </group_state>
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
