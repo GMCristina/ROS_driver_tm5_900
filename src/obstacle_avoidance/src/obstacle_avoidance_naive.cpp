@@ -34,7 +34,9 @@ int main(int argc, char **argv)
   ss << "PVTPoint(0.00352,-0.00548,90.00040,0.00325,-89.99455,0.00049,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.31375)\r\n";
   ss << "QueueTag(1)\r\nPVTExit()";
   std::string cmd8 = ss.str();
-  ROS_INFO_STREAM("Comando: "<<cmd8);
+  //ROS_INFO_STREAM("Comando: "<<cmd8);
+
+  std::string cmd9 = "Move_PTP(\"JPP\",-270,0,0,0,0,0,5,1000,0,false)"; // J6 (polso3)
 
 
 /*
@@ -50,12 +52,16 @@ PVTPoint(0.00352,-0.00548,90.00040,0.00325,-89.99455,0.00049,0.00000,0.00000,0.0
 
   ros::init(argc, argv, "obstacle_avoidance_naive");
   ros::NodeHandle nh;
+
+  ROS_INFO_STREAM("NAIVE: attesa connessione...");
+  ros::Duration(1).sleep();
+
   ros::ServiceClient client = nh.serviceClient<tm_msgs::SendScript>("tm_driver/send_script");
   tm_msgs::SendScript srv;
 
   //Request
   srv.request.id = "obs";
-  srv.request.script = cmd8;
+  srv.request.script = cmd9;
 
 
   if (client.call(srv))
