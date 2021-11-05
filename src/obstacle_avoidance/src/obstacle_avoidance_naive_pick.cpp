@@ -58,7 +58,7 @@ void ObstacleDetectedCallback(ros::NodeHandle &nh, const tm_msgs::ObstacleDetect
     }
     ROS_INFO_STREAM("NAIVEPi: Loop terminato, send Clear and home...");
 
-    std::string cmd = "StopAndClearBuffer()\r\nPTP(\"JPP\",0,0,0,0,0,0,3,200,0,false)"; //home
+    std::string cmd = "StopAndClearBuffer()\r\nPTP(\"JPP\",0,0,0,0,0,0,5,500,0,false)"; //home
     ros::ServiceClient client1 = nh.serviceClient<tm_msgs::SendScript>("tm_driver/send_script");
     tm_msgs::SendScript srv1;
 

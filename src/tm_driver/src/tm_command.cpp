@@ -109,9 +109,10 @@ std::string TmCommand::set_pvt_traj(const TmPvtTraj &pvts, int precision)
 			ss << "PVTPoint(";
 			for (auto &value : point.positions) { ss << deg(value) << ","; }
 			//for (auto &value : point.velocities) { ss << deg(value) << ","; }
-			for (auto &value : point.velocities) { double vel_scaled = 12*deg(value); ss << vel_scaled << ","; }
+			int fattore_scala = 6;
+			for (auto &value : point.velocities) { double vel_scaled = fattore_scala*deg(value); ss << vel_scaled << ","; }
 			//ss << point.time << ")\r\n";
-			double scaled_time = point.time/12;
+			double scaled_time = point.time/fattore_scala;
 			ss << scaled_time << ")\r\n";
 		}
 	}
