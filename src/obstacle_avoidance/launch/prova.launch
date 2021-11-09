@@ -1,4 +1,0 @@
-<launch>
-  <node name="loop_trajectory" pkg="obstacle_avoidance" type="loop_trajectory" respawn="false" output="screen" />
-  <node name="obstacle_avoidance_naive3" pkg="obstacle_avoidance" type="obstacle_avoidance_naive3" respawn="false" output="screen" />
-</launch>

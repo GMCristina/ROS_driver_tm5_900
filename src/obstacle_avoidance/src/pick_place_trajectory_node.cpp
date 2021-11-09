@@ -1,57 +1,68 @@
-// ROS headers
+//Node for pick and place trajectory with external script
+
 #include <ros/ros.h>
 #include <std_msgs/String.h>
 
-// std header
 #include <sstream>
 #include <cstdlib>
 
-// TM Driver header
-#include "tm_msgs/SendScript.h"
+// Custom message ObstacleDetected
 #include "tm_msgs/ObstacleDetected.h"
+
+#include "tm_msgs/SendScript.h"
 #include "tm_msgs/StaResponse.h"
 
+// Callback executed when ObstacleDetected message is received to kill the node
+// (otherwise it keeps on sending trajectory commands)
 void KillCallback(bool* flag_loop_p,ros::NodeHandle &nh, const tm_msgs::ObstacleDetected::ConstPtr& msg){
   std::string flag = msg->obstacle_detected ? "true" : "false";
-  ROS_INFO_STREAM("PICK: Ricevuto messaggio ObstacleDetected: " << flag );
-  ROS_INFO_STREAM("PICK: Loop_trajectory killing...");
+  ROS_INFO_STREAM("PICK: Received message ObstacleDetected: " << flag );
+
+  // Kill the node by setting the flag_loop variable to false
+  ROS_INFO_STREAM("PICK: pick_place_trajectory_node killing...");
   *flag_loop_p = false;
   //ros::shutdown();
 }
 
+// Callback executed when a TM_STA message is received to implement a loop trajectory
 void StaResponseCallback(bool* flag_done_p, const tm_msgs::StaResponse::ConstPtr& msg)
 {
-  ROS_INFO_STREAM("StaResponse: subcmd is = " << msg->subcmd << ", subdata is " << msg->subdata);
-  std::string comando = "01";
-  std::string data = "01,true";
+  //Check if it is the TMSTA message in response to the QueueTag of the trajectory commands
+  ROS_INFO_STREAM("TMSTA message: subcmd is = " << msg->subcmd << ", subdata is " << msg->subdata);
+  std::string cmd = "01"; //QueueTag
+  std::string data = "01,true"; // Tag number = 01, Status = true
 
-  if((msg->subcmd.compare(comando)==0)&&(msg->subdata.compare(data)==0)) {
-    ROS_INFO_STREAM("PICK: Traiettoria eseguita!");
+  if((msg->subcmd.compare(cmd)==0)&&(msg->subdata.compare(data)==0)) {
+    ROS_INFO_STREAM("PICK: Trajectory executed!");
     *flag_done_p = true;
   }
 }
 
 int main(int argc, char **argv)
 {
+  //Flag initialization
+  bool flag_loop = true; // loop trajectory on
+  bool flag_done = false; // trajectory commands still not executed
 
-  bool flag_loop = true;
-  bool flag_done = false;
-
-  ros::init(argc, argv, "pick_place");
+  //Node initialization
+  ros::init(argc, argv, "pick_place_trajectory_node");
   ros::NodeHandle nh;
 
-  ROS_INFO_STREAM("PICK: attesa connessione...");
-  ros::Duration(1).sleep();
-  ROS_INFO_STREAM("PICK: inizio..");
+  //IMPORTANT: Wait for TM_SCT connection (otherwise the node tries to send script before the connection is established)
+  ROS_INFO_STREAM("PICK: Wait for TM_SCT connection...");
+  ros::Duration(1).sleep(); //seconds
 
+  // Create subscriber to receive ObstacleDetected messages
   ros::Subscriber sub = nh.subscribe<tm_msgs::ObstacleDetected>("tm_driver/obstacle_detected", 5, boost::bind(&KillCallback,&flag_loop, boost::ref(nh), _1));
+  // Create subscriber to receive StaResponse messages
   ros::Subscriber sub2 = nh.subscribe<tm_msgs::StaResponse>("tm_driver/sta_response", 1000, boost::bind(&StaResponseCallback,&flag_done,_1));
 
+  // Create the client to request the service SendScript
   ros::ServiceClient client = nh.serviceClient<tm_msgs::SendScript>("tm_driver/send_script");
+  // Create the request with the commands for the pick and place trajectory
   tm_msgs::SendScript srv;
 
-
-  //std::string cmd2 = "Move_PTP(\"JPP\",90,0,0,0,0,0,5,200,0,false)\r\nMove_PTP(\"JPP\",-90,0,0,0,0,0,5,200,0,false)\r\nQueueTag(1)";
+  // 1: Pick and place trajectory with PTP
   std::stringstream ss;
   ss << "PTP(\"JPP\",-10.88,23.75,86.66,-18.56,92.41,0,5,200,0,false)\r\n"; //1 pick
   ss << "PTP(\"JPP\",-10.88,3.23,86.66,-4.20,92.41,0,5,200,0,false)\r\n"; //2
@@ -59,11 +70,11 @@ int main(int argc, char **argv)
   ss << "PTP(\"JPP\",28.38,23.75,86.66,-18.56,92.41,0,5,200,0,false)\r\n"; //4 place
   ss << "PTP(\"JPP\",28.38,3.23,86.66,-4.20,92.41,0,5,200,0,false)\r\n"; //3
   ss << "PTP(\"JPP\",-10.88,3.23,86.66,-4.20,92.41,0,5,200,0,false)\r\n"; //2
-  //ss << "PTP(\"JPP\",0,0,0,0,0,0,5,200,0,false)\r\n";
   ss << "QueueTag(1)";
   std::string cmd2 = ss.str();
-  ROS_INFO_STREAM("PICK Comando: " << cmd2);
+  //ROS_INFO_STREAM("PICK Cmd: " << cmd2);
 
+  // 2: Pick and place trajectory with PVTPoint (from Moveit) and Move_PTP
   std::stringstream ss3;
   ss3 << "PVTEnter(0)\r\n";
   ss3 << "PVTPoint(-1.08811,2.37447,8.66625,-1.85596,9.24145,-0.00043,-19.42402,42.37978,154.68622,-33.13028,164.95078,-0.00436,0.09520)\r\n";
@@ -84,14 +95,13 @@ int main(int argc, char **argv)
   ss3 << "Move_PTP(\"JPP\",-39.26,0,0,0,0,0,10,200,0,false)\r\n"; // 2
   ss3 << "QueueTag(1)";
   std::string cmd3 = ss3.str();
-  ROS_INFO_STREAM("PICK Comando: " << cmd3);
+  //ROS_INFO_STREAM("PICK: Cmd: " << cmd3);
 
-
-
-  srv.request.id = "trajec";
+  srv.request.id = "pick1";
   srv.request.script = cmd3;
-  ROS_INFO_STREAM("PICK: Invio primo comando...");
+  ROS_INFO_STREAM("PICK: First command...");
 
+  // Service call
   if (client.call(srv))
   {
     if (srv.response.ok) ROS_INFO_STREAM("PICK: Sent script to robot");
@@ -100,10 +110,10 @@ int main(int argc, char **argv)
   else
   {
     ROS_ERROR_STREAM("PICK: Error send script to robot");
-  //  return 1;
+    return 1;
   }
 
-
+  // Create the request with the commands for the loop pick and place trajectory
   tm_msgs::SendScript srv1;
   std::stringstream ss4;
   ss4 << "Move_PTP(\"JPP\",0,20.52,0,-14.36,0,0,10,200,0,false)\r\n"; // 2->1
@@ -114,17 +124,16 @@ int main(int argc, char **argv)
   ss4 << "Move_PTP(\"JPP\",-39.26,0,0,0,0,0,10,200,0,false)\r\n"; // 2
   ss4 << "QueueTag(1)";
   std::string cmd4 = ss4.str();
-  ROS_INFO_STREAM("PICK Comando: " << cmd4);
-
-  srv1.request.id = "loop";
+  //ROS_INFO_STREAM("PICK: Loop commands " << cmd4);
+  srv1.request.id = "pick";
   srv1.request.script = cmd4;
 
-
-
-
+  // Pick and place trajectory loop
   while(flag_loop) {
       if(flag_done){
-            ROS_INFO_STREAM("PICK: Nuovo comando traiettoria");
+            //Send new trajectory command
+            ROS_INFO_STREAM("PICK: New trajectory command");
+            // Check for messages
             ros::spinOnce();
             if (client.call(srv1))
             {
@@ -134,19 +143,20 @@ int main(int argc, char **argv)
             else
             {
               ROS_ERROR_STREAM("PICK: Error send script to robot");
-            //  return 1;
+              return 1;
             }
             flag_done = false;
       } else {
-        ROS_INFO_STREAM("PICK: Attesa comando eseguito");
+        // Wait TM_STA message of trajectory executed
+        ROS_INFO_STREAM("PICK: Wait trajectory executed");
+        // Check for messages
         ros::spinOnce();
         ros::Duration(0.5).sleep();
       }
-    // ros::Duration(20).sleep();
-    ros::spinOnce(); //controllare!
-
+    // Check for messages
+    ros::spinOnce();
   }
+    // Node shutdown for obstacle detection
     ROS_INFO_STREAM("PICK: loop trajectory killed");
     return 0;
-
 }

@@ -53,6 +53,9 @@
         <joint name="wrist_2_joint" value="-1.5708" />
         <joint name="wrist_3_joint" value="0" />
     </group_state>
+    <!--NEW GOAL STATES: Added new states for planning with MoveIt-->
+    <!--States defined in joint space in radians-->
+    <!--IMPORTANT: Pay attention to Joints' order, it's different from TMFlow (J3,J1,J2,J4,J5,J6)-->
     <group_state name="J1_90" group="manipulator">
         <joint name="elbow_joint" value="0" />
         <joint name="shoulder_1_joint" value="1.5708" />
@@ -69,7 +72,7 @@
         <joint name="wrist_2_joint" value="0" />
         <joint name="wrist_3_joint" value="0" />
     </group_state>
-    <group_state name="Pick1" group="manipulator">
+    <group_state name="Pick_Place1" group="manipulator">
         <joint name="elbow_joint" value="1.5125" />
         <joint name="shoulder_1_joint" value="-0.1899" />
         <joint name="shoulder_2_joint" value="0.4145" />
@@ -77,7 +80,7 @@
         <joint name="wrist_2_joint" value="1.6129" />
         <joint name="wrist_3_joint" value="0" />
     </group_state>
-    <group_state name="Pick2" group="manipulator">
+    <group_state name="Pick_Place2" group="manipulator">
         <joint name="elbow_joint" value="1.5125" />
         <joint name="shoulder_1_joint" value="-0.1899" />
         <joint name="shoulder_2_joint" value="0.0564" />
@@ -85,7 +88,7 @@
         <joint name="wrist_2_joint" value="1.6129" />
         <joint name="wrist_3_joint" value="0" />
     </group_state>
-    <group_state name="Pick3" group="manipulator">
+    <group_state name="Pick_Place3" group="manipulator">
         <joint name="elbow_joint" value="1.5125" />
         <joint name="shoulder_1_joint" value="0.4953" />
         <joint name="shoulder_2_joint" value="0.0564" />
@@ -93,7 +96,7 @@
         <joint name="wrist_2_joint" value="1.6129" />
         <joint name="wrist_3_joint" value="0" />
     </group_state>
-    <group_state name="Pick4" group="manipulator">
+    <group_state name="Pick_Place4" group="manipulator">
         <joint name="elbow_joint" value="1.5125" />
         <joint name="shoulder_1_joint" value="0.4953" />
         <joint name="shoulder_2_joint" value="0.4145" />

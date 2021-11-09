@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
+<!-- Launch file to test external script functions-->
 <launch>
 	<node name="tm_driver" pkg="tm_driver" type="tm_driver" output="screen">
 		<param name="robot_ip_address" type="str" value="169.254.77.215" />
 	</node>
-<node name="obstacle_avoidance_naive" pkg="obstacle_avoidance" type="obstacle_avoidance_naive" respawn="false" output="screen" />
+	<node name="send_script_node" pkg="obstacle_avoidance" type="send_script_node" respawn="false" output="screen" />
 </launch>

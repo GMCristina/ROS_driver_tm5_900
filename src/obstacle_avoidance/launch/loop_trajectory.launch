@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!-- Launch file: Obstacle avoidance (stop+home) for loop trajectory (J1 +90° -90°)-->
+<launch>
+	<node name="tm_driver" pkg="tm_driver" type="tm_driver" output="screen">
+		<param name="robot_ip_address" type="str" value="169.254.77.215" />
+	</node>
+	<node name="loop_trajectory_node" pkg="obstacle_avoidance" type="loop_trajectory_node" respawn="false" output="screen" />
+	<node name="obstacle_avoidance_naive_loop_node" pkg="obstacle_avoidance" type="obstacle_avoidance_naive_loop_node" respawn="false" output="screen" />
+</launch>

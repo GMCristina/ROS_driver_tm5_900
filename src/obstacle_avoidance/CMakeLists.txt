@@ -136,13 +136,17 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 #add_executable(${PROJECT_NAME}_node src/obstacle_avoidance_node.cpp)
-add_executable(obstacle_avoidance_naive src/obstacle_avoidance_naive.cpp)
-add_executable(obstacle_avoidance_naive2 src/obstacle_avoidance_naive2.cpp)
-add_executable(obstacle_avoidance_naive3 src/obstacle_avoidance_naive3.cpp)
-add_executable(obstacle_avoidance_naive_pick src/obstacle_avoidance_naive_pick.cpp)
-add_executable(obstacle_detection src/obstacle_detection.cpp)
-add_executable(loop_trajectory src/loop_trajectory.cpp)
-add_executable(pick_place src/pick_place.cpp)
+
+add_executable(obstacle_avoidance_naive_loop_node src/obstacle_avoidance_naive_loop_node.cpp)
+add_executable(obstacle_avoidance_naive_moveit_node src/obstacle_avoidance_naive_moveit_node.cpp)
+add_executable(obstacle_avoidance_naive_pick_node src/obstacle_avoidance_naive_pick_node.cpp)
+
+add_executable(obstacle_detection_naive_node src/obstacle_detection_naive_node.cpp)
+
+add_executable(send_script_node src/send_script_node.cpp)
+
+add_executable(loop_trajectory_node src/loop_trajectory_node.cpp)
+add_executable(pick_place_trajectory_node src/pick_place_trajectory_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -153,37 +157,37 @@ add_executable(pick_place src/pick_place.cpp)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(obstacle_avoidance_naive ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(obstacle_avoidance_naive2 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(obstacle_avoidance_naive3 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(obstacle_avoidance_naive_pick ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(obstacle_detection ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(loop_trajectory ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(pick_place ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(obstacle_avoidance_naive_loop_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(obstacle_avoidance_naive_moveit_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(obstacle_avoidance_naive_pick_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(send_script_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(obstacle_detection_naive_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(loop_trajectory_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(pick_place_trajectory_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
- target_link_libraries(obstacle_avoidance_naive
+ target_link_libraries(obstacle_avoidance_naive_loop_node
    ${catkin_LIBRARIES}
  )
- target_link_libraries(obstacle_avoidance_naive2
+ target_link_libraries(obstacle_avoidance_naive_moveit_node
    ${catkin_LIBRARIES}
  )
- target_link_libraries(obstacle_avoidance_naive3
+ target_link_libraries(obstacle_avoidance_naive_pick_node
    ${catkin_LIBRARIES}
  )
- target_link_libraries(obstacle_avoidance_naive_pick
+ target_link_libraries(send_script_node
    ${catkin_LIBRARIES}
  )
- target_link_libraries(obstacle_detection
+ target_link_libraries(obstacle_detection_naive_node
    ${catkin_LIBRARIES}
  )
- target_link_libraries(loop_trajectory
+ target_link_libraries(loop_trajectory_node
    ${catkin_LIBRARIES}
  )
- target_link_libraries(pick_place
+ target_link_libraries(pick_place_trajectory_node
    ${catkin_LIBRARIES}
  )
 

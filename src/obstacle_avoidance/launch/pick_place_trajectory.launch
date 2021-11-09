@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!-- Launch file: Obstacle avoidance (stop+home) for pick and place trajectory -->
+<launch>
+	<node name="tm_driver" pkg="tm_driver" type="tm_driver" output="screen">
+		<param name="robot_ip_address" type="str" value="169.254.77.215" />
+	</node>
+	<node name="pick_place_trajectory_node" pkg="obstacle_avoidance" type="pick_place_trajectory_node" respawn="false" output="screen" />
+	<node name="obstacle_avoidance_naive_pick_node" pkg="obstacle_avoidance" type="obstacle_avoidance_naive_pick_node" respawn="false" output="screen" />
+</launch>
