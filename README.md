@@ -1,3 +1,4 @@
+
 # __User Guide for TM ROS Driver__
 
 This repo is forked from [tmr_ros1]( https://github.com/TechmanRobotInc/tmr_ros1) that provides ROS support for techman robots. The original repo has been further developed using the existing driver to simulate and handle an __external obstacle detection__. <br/>
@@ -7,7 +8,7 @@ For further information about the existing ROS driver refers to [tmr_ros1]( http
 
 ## __1.ROS Driver__
 
-The existing TM ROS driver connects to _TMflow Ethernet Slave_ and to a _Listen node_ (running at a _TMflow project_). This allows the driver to get the robot state and to control the robot using _External Script_. More information about _TM Robot Expression_ and _Ethernet Slave_, see [Expression Editor and Listen Node.pdf](https://assets.omron.eu/downloads/manual/en/v1/i848_tm_expression_editor_and_listen_node_reference_manual_en.pdf). <br/>
+The existing TM ROS driver connects to _TMflow Ethernet Slave_ and to a _Listen node_ (running at a _TMflow project_). This allows the driver to get the robot state and to control the robot using _External Script_. <br/>
 The TM ROS driver for ROS1 is a __single ROS node__ that handles robot-pc communication offering the following interfaces:
 
 > __Action Server__
@@ -39,6 +40,19 @@ send motion command to _Listen node_, the motion type include PTP, LINE, CIRC an
 The steps to connect to the robot and to test the code are the following:
 
 ### &sect; __Ubuntu 18.04 Virtual Machine setup__
+If necessary create a virtual machine with Ubuntu 18.04 (Bionic). The steps to create the virtual machine with VirtualBox can be found in [Ubuntu](https://www.toptechskills.com/linux-tutorials-courses/how-to-install-ubuntu-1804-bionic-virtualbox/).
+It is raccomended to give the virtual machine at least half the RAM of the host and to reserve about 30GB for the virtual hard disk.
+It is suggested to install the _VirtualBox Guest Additions_. <br/>
+[![1](figures/ubuntu.png)]
+To allow the TCP/IP connection with the robot it is required to modify the default network settings.  <br/>
+The default virtual network adapter uses __NAT__ (Network Address Translation) mode. 
+With this mode the guest operating system can access external networks, including the internet, but the guest machine is not accessible from the outside.
+[![1](figures/net1.png)]
+So a new virtual network adapter that uses __Bridged Adapter__ must be enabled. With this mode packets are sent and received directly from/to the virtual network adapter without additional routing so that the VM can be accessed from other hosts connected to the physical network.<br/>
+The correct network adapter must be selected (the physical adapter used for the connection with the robot).
+[![1](figures/net2.png)]
+Finally a proper __static IP__ address must be assigned to the VM so that the VM and the robot belong to the same private network.
+[![1](figures/net3.png)]
 
 ### &sect; __ROS Melodic setup__
 
