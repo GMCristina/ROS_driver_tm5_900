@@ -43,16 +43,16 @@ The steps to connect to the robot and to test the code are the following:
 If necessary create a virtual machine with Ubuntu 18.04 (Bionic). The steps to create the virtual machine with VirtualBox can be found in [Ubuntu](https://www.toptechskills.com/linux-tutorials-courses/how-to-install-ubuntu-1804-bionic-virtualbox/).
 It is raccomended to give the virtual machine at least half the RAM of the host and to reserve about 30GB for the virtual hard disk.
 It is suggested to install the _VirtualBox Guest Additions_. <br/>
-[![1](figures/ubuntu.png)]
+[![1](src/figures/ubuntu.png)]
 To allow the TCP/IP connection with the robot it is required to modify the default network settings.  <br/>
 The default virtual network adapter uses __NAT__ (Network Address Translation) mode.
 With this mode the guest operating system can access external networks, including the internet, but the guest machine is not accessible from the outside.
-[![2](figures/net1.png)]
+[![2](src/figures/net1.png)]
 So a new virtual network adapter that uses __Bridged Adapter__ must be enabled. With this mode packets are sent and received directly from/to the virtual network adapter without additional routing so that the VM can be accessed from other hosts connected to the physical network.<br/>
 The correct network adapter must be selected (the physical adapter used for the connection with the robot).
-[![3](figures/net2.png)]
+[![3](src/figures/net2.png)]
 Finally a proper __static IP__ address must be assigned to the VM so that the VM and the robot belong to the same private network.
-[![4](figures/net3.png)]
+[![4](src/figures/net3.png)]
 
 ### &sect; __ROS Melodic setup__
 
