@@ -62,9 +62,39 @@ Finally a proper __static IP__ address must be assigned to the VM so that the VM
 ![4](src/figures/net3.png)
 
 ### &sect; __ROS Melodic setup__
+The steps to install ROS Melodic on Ubuntu can be found in [Melodic](http://wiki.ros.org/melodic/Installation/Ubuntu). The steps from 1.1 to 1.5 are sufficient. It is recommanded to install the _Desktop-Full_ version to prevent installing manually missing packages. <br/>
+Despite this, some packages (such as Moveit) could still be missing, giving error at compile time. They can be installed with the following command:
+
+```
+sudo apt install ros-melodic-PACKAGE
+```
+If ROS Melodic is the only ROS version curruntly used, it is suggested to modify the _.bashrc_ file to automatically add the ROS environment variables to your bash session every time a new shell is launched (step 1.5 of [Melodic](http://wiki.ros.org/melodic/Installation/Ubuntu)).
+
+```
+echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+```
+
+Otherwise it must be source in every new shell in order to use ROS commands.
+```
+source /opt/ros/melodic/setup.bash
+```
+
 
 ### &sect; __Download and copile the repository__
-Just clone the TM ROS driver of git repository into your working directory and then built it.<br/>
+Download the git repository, unzip it and copy just the _src_ folder into your working directory.<br/>
+Open the terminal from the _src_ folder of your working directory and compile the workspace with the following command:
+
+```
+catkin_make
+```
+The compilation creates the two new folder _build_ and _devel_.
+It is suggested to modify the _.bashrc_ file to automatically add the workspace enviroment to your bash session every time a new shell is launched. Otherwise it must be source in every new shell in order to launch launch files or run nodes.
+
+```
+source [PATH]/[WORKING_DIRECTORY_NAME]/devel/setup.bash 
+```
+![5](src/figures/source.png)
 
 ### &sect; __TMFlow setup__
 
@@ -118,7 +148,7 @@ Enable the `Data Table Setting` item and check the following boxes as item prede
 
 
 
-###  &sect; __Connection to TM ROBOT__
+###  &sect; __Physical connection to TM ROBOT__
 > Static IP of remote connection network settings through the wired network .<br/>
 > 3. Check Internet connection: start a terminal to test the connectivity with the target host _TM ROBOT_, by typing ping 192.168.10.2
 
