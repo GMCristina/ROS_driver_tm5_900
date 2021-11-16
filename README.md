@@ -45,14 +45,14 @@ It is raccomended to give the virtual machine at least half the RAM of the host 
 It is suggested to install the _VirtualBox Guest Additions_. <br/>
 [![1](figures/ubuntu.png)]
 To allow the TCP/IP connection with the robot it is required to modify the default network settings.  <br/>
-The default virtual network adapter uses __NAT__ (Network Address Translation) mode. 
+The default virtual network adapter uses __NAT__ (Network Address Translation) mode.
 With this mode the guest operating system can access external networks, including the internet, but the guest machine is not accessible from the outside.
-[![1](figures/net1.png)]
+[![2](figures/net1.png)]
 So a new virtual network adapter that uses __Bridged Adapter__ must be enabled. With this mode packets are sent and received directly from/to the virtual network adapter without additional routing so that the VM can be accessed from other hosts connected to the physical network.<br/>
 The correct network adapter must be selected (the physical adapter used for the connection with the robot).
-[![1](figures/net2.png)]
+[![3](figures/net2.png)]
 Finally a proper __static IP__ address must be assigned to the VM so that the VM and the robot belong to the same private network.
-[![1](figures/net3.png)]
+[![4](figures/net3.png)]
 
 ### &sect; __ROS Melodic setup__
 
@@ -108,19 +108,13 @@ Enable the `Data Table Setting` item and check the following boxes as item prede
 >  
 > 4. Press the Play/Pause Button on the Robot Stick to start running this _Listen task_ project.
 >
->     Note: Software TMflow version changes may have slightly different settings.([SW1.76_Rev2.00](https://www.tm-robot.com/zh-hant/wpdmdownload/software-manual-tmflow_sw1-76_rev2-00/)) ([SW1.82_Rev1.00](https://www.tm-robot.com/zh-hant/wpdmdownload/software-manual-tmflow_sw1-82_rev1-00/))<br/>
+
 
 
 ###  &sect; __Connection to TM ROBOT__
 > Static IP of remote connection network settings through the wired network .<br/>
->
-> 1. Set the wired network of the user's (remote) Ubuntu computer by mouse-click on the top right of the desktop &rArr; Click on "Wired Settings" &rArr; Click on the gear icon &rArr; In the IPv4 feature options, click on "Manual" in order.<br/>
-> ![user_remote_network_settings](figures/user_remote_network_settings.png)
-> 2. Set the Static IP settings: where the IP address is fixed for the first three yards same as the previous setting 192.168.10, last yards 3-254 machine numbers are available. (Because _TM ROBOT_, you have been set to 192.168.10.2 )<br/>
-> Example: Set the Netmask: 255.255.255.0 and IP address 192.168.10.30  <br/>
-> ![user_remote_IP_example](figures/user_remote_IP_example.png)
 > 3. Check Internet connection: start a terminal to test the connectivity with the target host _TM ROBOT_, by typing ping 192.168.10.2
-> ![ping_target_host.png](figures/ping_target_host.png)
+
 
 ## __3. Usage__
 ###  &sect; __TM ROS driver usage__
