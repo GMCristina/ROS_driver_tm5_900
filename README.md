@@ -128,32 +128,32 @@ It is sufficient to set the static ip of the Virtual Machine so that it belongs 
  These items can be __predefined__ variables, __user defined__ variable or __global variable__. <br/>
  The following items must be selected and added to the transmit file:
 
-       - [x] Robot_Error
-       - [x] Project_Run
-       - [x] Project_Pause
-       - [x] Safeguard_A
-       - [x] ESTOP
-       - [x] Camera_Light
-       - [x] Error_Code
-       - [x] Joint_Angle
-       - [x] Coord_Robot_Flange
-       - [x] Coord_Robot_Tool
-       - [x] TCP_Force
-       - [x] TCP_Force3D
-       - [x] TCP_Speed
-       - [x] TCP_Speed3D
-       - [x] Joint_Speed
-       - [x] Joint_Torque
-       - [x] Project_Speed
-       - [x] MA_Mode
-       - [x] Robot Light
-       - [x] Ctrl_DO0~DO7
-       - [x] Ctrl_DI0~DI7
-       - [x] Ctrl_AO0
-       - [x] Ctrl_AI0~AI1
-       - [x] END_DO0~DO3
-       - [x] END_DI0~DI2
-       - [x] END_AI0
+- [x] Robot_Error
+- [x] Project_Run
+- [x] Project_Pause
+- [x] Safeguard_A
+- [x] ESTOP
+- [x] Camera_Light
+- [x] Error_Code
+- [x] Joint_Angle
+- [x] Coord_Robot_Flange
+- [x] Coord_Robot_Tool
+- [x] TCP_Force
+- [x] TCP_Force3D
+- [x] TCP_Speed
+- [x] TCP_Speed3D
+- [x] Joint_Speed
+- [x] Joint_Torque
+- [x] Project_Speed
+- [x] MA_Mode
+- [x] Robot Light
+- [x] Ctrl_DO0~DO7
+- [x] Ctrl_DI0~DI7
+- [x] Ctrl_AO0
+- [x] Ctrl_AI0~AI1
+- [x] END_DO0~DO3
+- [x] END_DI0~DI2
+- [x] END_AI0
 
  ![10](src/figures/ethernet2.png)
 
