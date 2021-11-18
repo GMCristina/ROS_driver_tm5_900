@@ -97,7 +97,7 @@ source [PATH]/[WORKING_DIRECTORY_NAME]/devel/setup.bash
 ![5](src/figures/source.png)
 
 ###  &sect; __Physical connection to TM ROBOT__
-The robot and the pc must be physically connected through an ethernet cable (rj45).
+The robot and the pc must be physically connected through an __ethernet cable__ (rj45). <br/>
 :bulb:__WARNING__ __Connect__ the ethernet cable to the __LAN__ port of the control box.
 
 <p align="center">
@@ -169,142 +169,72 @@ It is sufficient to set the static ip of the Virtual Machine so that it belongs 
 
 Another way to set the __Ethernet Slave Data Table__ settings is to directly import the transmit file from [TM ROS Driver vs TMflow software Usage : Import Data Table Setting](https://github.com/TechmanRobotInc/TM_Export).
 
+4. Run the TMFlow project on the robot side and open a terminal on the pc side. <br/>
+Check the robot-pc connection with a __ping__ to the robot ip address.
 
+ ![13](src/figures/ping.png)
 
 
 ## __3. Usage__
-###  &sect; __TM ROS driver usage__
+After following all the steps described in section 2, the following __launch file__ can be launched:
 
-> __ROS1 driver usage__
->
-> After the user has set up the ROS1 environment and built the TM driver based on the specific workspace, please enter your workspace `<workspace>` by launching the terminal, and remember to make the workspace visible to ROS.
->
->
-> ```bash
-> source /opt/ros/melodic/setup.bash
-> cd <workspace>
-> source ./devel/setup.bash
-> ```
-> :bulb: Do you prepare the __TM Robot__ ready ? Make sure that TM Robot's operating software (__TMflow__) network settings are ready and the __Listen node__ is running.
->
-> Then, run the driver to maintain the connection with TM Robot by typing
->
->```bash
-> rosrun tm_driver tm_driver <robot_ip_address>
->```
-> Example :``rosrun tm_driver tm_driver 192.168.10.2``, if the <robot_ip_address> is 192.168.10.2
->
->
-> Another way, the user can execute the specific existing launch file (example: __tm5_900_bringup.launch__) to enable the driver to connect to __tm5-900__ robot  
->
-> ```bash
-> roslaunch tm_driver tm5_900_bringup.launch robot_ip:=<robot_ip_address>
-> ```
-> Example :``roslaunch tm_driver tm5_900_bringup.launch robot_ip:=192.168.10.2``, if the <robot_ip_address> is 192.168.10.2
->
-> Now, the user can use a new terminal to run each ROS node or command, but don't forget to source the correct setup shell files as starting a new terminal.
+- __loop_trajectory.launch__
+- __pick_place_trajectory.launch__
+- __moveit_trajectory.launch__
+- __test_functions.launch__
 
-> __Usage with MoveIt__
->
-> See [Moveit tutorial](http://docs.ros.org/en/melodic/api/moveit_tutorials/html/doc/getting_started/getting_started.html).<br/>
->
-> To bring up MoveIt environment in simulation mode with virtual TM Robot, by typing
->
->
-> ```bash
-> roslaunch tm5_900_moveit_config tm5_900_moveit_planning_execution.launch sim:=True
-> ```
->
-> The user can also manipulate TM Robot in the real world, by typing<br/>
-> :bulb: Do you prepare the __TM Robot__ ready ? Make sure that TM Robot's operating software (__TMflow__) network settings are ready and the __Listen node__ is running.  
->
-> ```bash
-> roslaunch tm5_900_moveit_config tm5_900_moveit_planning_execution.launch sim:=False robot_ip:=<robot_ip_address>
-> ```
->
-> The parameter `<robot_ip_address>` means the IP address of the TM Robot.<br/>
->:warning:[CAUTION] This demo will let the real TM Robot move, please be careful.<br/>
+The ROS command to open these files is the following:
+```
+roslaunch obstacle_avoidance [LAUNCH_FILE_NAME]
+```
+:bulb: WARNING: The __default robot ip address__ is 169.254.77.215; if the robot has a different ip these launch files must be modified changing the value of the parameter _robot_ip_address_ of the __tm_driver__ node.
 
 
+###  &sect; __test_functions__
+This launch file starts the __tm_driver__ node for the robot-pc communication and a __send_script_node__ to test the __External Script__commands available (for the commands refers to [espression_editor](src/documents/i848_tm_expression_editor_and_listen_node_reference_manual.pdf)). <br/>
+To test a new command just create a string variable with the desired command and assign it to _srv.request.script_.
 
-### &sect; __Demo package description__
-> There are some demo codes showing  how to use TM ROS driver.<br/>
->
-> * demo_send_script:<br/>
-In this demo code, it shows how to send a __Listen node__ script to control the TM Robot. <br/>
-The user can use service named "send_script" to send script.<br/>
-"id" &rarr; The transaction number expressed in any <u>alphanumeric</u> <sup>1</sup> characters.<br/>
-"script" &rarr; the script which the user want to send.<br/>
-"ok" &rarr; the correctness of the script.<br/>
- ><sup>1</sup> If a non-alphanumeric byte is encountered, a CPERR 04 error is reported. When used as a communication packet response, it is a transaction number and identifies which group of commands to respond.<br/>
->
-> * demo_ask_item:<br/>
-In this demo code, the user can use this service to send TMSCT <sup>2</sup> cmd.<br/>
-> <sup>2</sup> For more detailed information, please refer to _defined protocol_: Expression Editor and Listen Node.pdf (Chapter7.4 TMSCT)<br/>
->
-> * demo_ask_sta:<br/>
-In this demo code, the user can use this service to send TMSTA <sup>3</sup> cmd.<br/>
-> <sup>3</sup> For more detailed information, please refer to _defined protocol_ (Chapter7.5 TMSTA)<br/>
-> * demo_connect_tm:<br/>
-In this demo code, the user can set the connection type. <br/>
-If the user sets reconnect to true, every time the driver disconnects from the __Listen node__, it will try to reconnect.<br/>
-There are two kind connection settings the user can select, one is "connect_tmsvr" for Ethernet server connection, and the other is "connect_tmsct" for  TMflow connection.<br/>
->
-> * demo_set_event:<br/>
-In this demo code, six event types can be selected.<br/>
-func &rarr;  TAG, WAIT_TAG, STOP, PAUSE, RESUME and EXIT<br/>
-arg0 &rarr;  if func is TAG or WAIT_TAG, arg0 is timeout in ms<br/>
-arg1 &rarr;  if func is TAG or WAIT_TAG, arg1 is id<br/>
->
-> * demo_set_io:<br/>
-In this demo code, the user should set module, type, pin and state. <sup>4</sup> <br/>
-module &rarr;  MODULE_CONTROLBOX or MODULE_ENDEFFECTOR<br/>
-type &rarr;  TYPE_DIGITAL_IN, TYPE_DIGITAL_OUT, TYPE_INSTANT_DO, TYPE_ANALOG_IN, TYPE_ANALOG_OUT, TYPE_INSTANT_AO<br/>
-pin &rarr;  pin number<br/>
-state &rarr;  STATE_OFF or STATE_ON value, or other value (if type expressed in a specific control module)<br/>
-> <sup>4</sup> For more detailed information, please refer to _defined protocol_ (Chapter6.5 IO)<br/>
->
-> * demo_set_positions:<br/>
-In this demo code, the user should pay attention to the parameter definition of the data format setting <sup>5</sup> and the unit of the parameter to be operated.  <br/>
-motion_type &rarr;  PTP_J , PTP_T , LINE_J , LINE_T , CIRC_J ,CIRC_T , PLINE_J ,PLINE_T <br/>
-positions &rarr;  motion target position: If expressed in Cartesian coordinate (unit: m), if expressed in joint angles (unit: rad)<br/>
-velocity &rarr;  motion velocity: if expressed in Cartesian coordinate (unit: m/s) <sup>6</sup> , if expressed in joint velocity (unit: rad/s, and the maximum value is limited to  &pi; )  <sup>6</sup>  <br/>
-acc_time &rarr; time to reach maximum speed (unit: ms)<br/>
-blend_percentage &rarr; blending value: expressed as a percentage (unit: %, and the minimum value of 0 means no blending) <br/>
-fine_goal &rarr; precise position mode : If activated, the amount of error in the final position will converge more, but it will take a few more milliseconds.<br/>
-> <sup>5</sup> For more detailed information, please refer to _defined protocol_ (Chapter8 PTP, Line, Circle, Pline, Move_PTP, Move_Line, Move_PLine) <br/>
-> <sup>6</sup> The unit of the parameters are different, the user can find the conversion in the program of TM ROS driver.<br/>
->
-> * demo_write_item: <br/>
-In this demo code, the user can use this service to send TMSVR <sup>7</sup> cmd. <br/>
-> <sup>7</sup> For more detailed information, please refer to _defined protocol_ (Chapter9.3 svr_write())<br/>
->
-> * demo_leave_listen_node:<br/>
-In this demo code, the user can use send_script service sending a script to leave the __Listen node__.<br/>
-> :bulb: If the user has sent the demo_leave_listen_node script to leave the __Listen node__, and you want to run the TM Robot again, please remember that the _Listen task_ project should be resumed to run. You can press the Stop Button on the Robot Stick and then press the Play/Pause Button to resume operation. <br/>
+![14](src/figures/test.png)
 
+###  &sect; __loop_trajectory__
+This launch file starts the following nodes:
+- __tm_driver__: the usual node for the robot-pc communication
+- __loop_trajectory_node__: this node gives the robot the commands to execute a predefined trajectory in a loop; here the trajectory is just Joint1 (shoulder_1_joint) rotating by +- 90°
+- __obstacle_avoidance_naive_loop_node__: this node handles the obstacle avoidance; when ad obstacle is detected it gives the robot the commands to stop the current trajectory and to return to the home pose
 
-### &sect; __Usage with demo code & driver__
-> Note: If the user have even successfully built a specific code(tmr_ros1), the user only need to change to the TM driver workspace path  ``cd ~/tmdriver_ws`` , and then directly refer to steps 5~7 below. <br/>
-> 1. Type to create a root workspace directory by starting a terminal: For example,  ``tmdriver_ws`` or ``catkin_ws``, then type to change current directory into the workspace directory path.<br/>
-``mkdir ~/tmdriver_ws``<br/>
-``cd ~/tmdriver_ws``<br/>
-> 2. Clone the the TM driver of git repository into the current directory by typing<br/>
-``git clone https://github.com/TechmanRobotInc/tmr_ros1.git``<br/>
-> 3. After the download done, rename the download folder ``tmr_ros1``(or ``tmr_ros1-master``) to ``src`` by typing<br/>
-``mv tmr_ros1 src``<br/>  (or right-click on the download folder, select "Rename...")<br/>
-> 4. At the workspace directory to build the download packages and source 'setup.bash' in this workspace to make the worksapce visible to ROS of this terminal 1.<br/>
-Note: Do you set``source /opt/ros/melodic/setup.bash`` ready? Make sure to obtain the correct setup file according to your workspace hierarchy, and then type the following below to compile.<br/>
-``catkin_make``<br/>
-``source ./devel/setup.bash``<br/>
-> 5. Terminal 1: Startup ROS core  and type<br/>
-``roscore``<br/>
-> 6. In a new terminal 2: Source setup.bash in the workspace path and run the driver to connect to TM Robot by typing<br/>
-``source ./devel/setup.bash``<br/>
-``rosrun tm_driver tm_driver <robot_ip_address>``<br/>
-The <robot_ip_address> is the IP address of the TM Robot, the user can get it through TM Flow, for example 192.168.10.2<br/>
-> 7. In another new terminal: Source setup.bash in the workspace path and type specific demo node function which the user want to study for applications. For example: the user select to run demo_set_io, the user can type<br/>
-``source ./devel/setup.bash``<br/>
-``rosrun demo demo_set_io``<br/>
->:warning:[CAUTION] Some demos will let the TM Robot move, please be careful.<br/>
-><br/>
+To simulate an obstacle detection the __obstacle_detection_naive_node__ must be run with the following command:
+
+```
+rosrun obstacle_avoidance obstacle_detection_naive_node
+```
+This node publishes a custom naive __ObstacleDetected__ message to the topic __tm_driver/obstacle_detected__ that is subscribed by __obstacle_avoidance_naive_loop_node__. <br/>
+So launching the __loop_trajectory.launch__ the robot starts a predefined trajectory in a loop; when the __obstacle_detection_naive_node__ is run the robot stops and returns to the home pose.
+
+###  &sect; __pick_place_trajectory__
+This launch file is similar to the previous one; the only difference is a more complex predefined trajectory that simulates a pick and place task executed in a loop.
+The launch file starts the following nodes:
+- __tm_driver__: the usual node for the robot-pc communication
+- __pick_place_trajectory_node__: this node gives the robot the commands to execute a predefined trajectory in a loop; here the trajectory is sequence of 4 points to simulate a pick and place task
+- __obstacle_avoidance_naive_pick_node__: this node handles the obstacle avoidance; when ad obstacle is detected it gives the robot the commands to stop the current trajectory and to return to the home pose
+
+To simulate an obstacle detection the same __obstacle_detection_naive_node__ must be run.
+
+###  &sect; __moveit_trajectory__
+This launch file allows the same obstacle avoidance logic of the previous ones but with a trajectory not predefined but planned through __MoveIt__. <br/>
+MoveIt is an __RViz plugin__ and __Rviz__ is the primary visualizer in ROS. The MoveIt Rviz plugin allows you to setup virtual environments (scenes), create __start__ and __goal states__ for the robot interactively, test various __motion planners__ and visualize the output. <br/>
+In [tmr_ros1]( https://github.com/TechmanRobotInc/tmr_ros1) there is already a launch file to control the robot through MoveIt that can still be launched with the command:
+
+```
+roslaunch tm5_900_moveit_config tm5_900_moveit_planning_execution.launch sim:=False robot_ip:=<robot_ip_address>
+```
+
+When the launch file is run, the Rviz window will open, showing the robot __current pose__ that is the default start state. The user can choose the __goal state__, selecting it from the drop-down menu or manually moving the robot goal state. <br/>
+The states in the drop-down menu are defined in [tm5_900.srdf](src/tm5_900_moveit_config/config/tm5_900.srdf)
+
+![15](src/figures/states.png)
+
+With the __Plan__ buttom MoveIt plans and shows the trajectory from the start state to the goal state. After the planning, with the __Execute__ buttom, the user can ask the execution of the planned trajectory.
+
+![16](src/figures/moveit.png)
+
+Starting from this a new launch file has been created adding a node __obstacle_avoidance_naive_moveit_node__. This node, as the others, handles the obstacle avoidance, giving the robot the commands to stop the current trajectory and to return to the home pose. The obstacle detection can be simulated running the same __obstacle_detection_naive_node__.
