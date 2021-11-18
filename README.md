@@ -116,46 +116,49 @@ It is sufficient to set the static ip of the Virtual Machine so that it belongs 
 
  ![8](src/figures/open.png)
 
-:bulb:__WARNING__ __Not connect__ the ethernet cable to a __GigE LAN__ port otherwise the Ethernet Slave and the Listen open on the local host 127.0.0.1 and the connection fails
+:bulb:__WARNING__ __Not connect__ the ethernet cable to a __GigE LAN__ port otherwise the Ethernet Slave and the Listen open on the local host 127.0.0.1 and the connection fails <br/>
 :bulb:__WARNING__ If the Ethernet Slave and the Listen still open on the local host 127.0.0.1 try the other port though
 
 
-3. Set the __Ethernet Slave Data Table__ settings: mouse-click to enter the page of __Setting &rArr; Connection &rArr; Ethernet Slave__ in order.   
-Enable the `Data Table Setting` item and check the following boxes as item predefined to receive/send specific data:
->
->       - [x] Robot_Error
->       - [x] Project_Run
->       - [x] Project_Pause
->       - [x] Safeguard_A
->       - [x] ESTOP
->       - [x] Camera_Light
->       - [x] Error_Code
->       - [x] Joint_Angle
->       - [x] Coord_Robot_Flange
->       - [x] Coord_Robot_Tool
->       - [x] TCP_Force
->       - [x] TCP_Force3D
->       - [x] TCP_Speed
->       - [x] TCP_Speed3D
->       - [x] Joint_Speed
->       - [x] Joint_Torque
->       - [x] Project_Speed
->       - [x] MA_Mode
->       - [x] Robot Light
->       - [x] Ctrl_DO0~DO7
->       - [x] Ctrl_DI0~DI7
->       - [x] Ctrl_AO0
->       - [x] Ctrl_AI0~AI1
->       - [x] END_DO0~DO3
->       - [x] END_DI0~DI2
->       - [x] END_AI0
->
->       ![2](figures/3.png)
->
->    Another way to set the __Ethernet Slave Data Table__ settings is to directly import the software package , see [TM ROS Driver vs TMflow software Usage : Import Data Table Setting](https://github.com/TechmanRobotInc/TM_Export).
->  
-> 4. Press the Play/Pause Button on the Robot Stick to start running this _Listen task_ project.
->
+3. Enable the __Ethenet Slave__ and set the __Ethernet Slave Data Table__ from __Setting &rArr; Connection &rArr; Ethernet Slave__.
+
+ ![9](src/figures/ethernet1.png)
+
+ The __Data Table__ or __Transmit File__ is a customizable list of items that are trasmitted between the Ethernet Slave and clients. In particular when the Ethernet Slave is enabled, the data items in this file are send to the connected clients periodically. <br/>
+ These items can be __predefined__ variables, __user defined__ variable or __global variable__. <br/>
+ The following items must be selected and added to the transmit file:
+
+       - [x] Robot_Error
+       - [x] Project_Run
+       - [x] Project_Pause
+       - [x] Safeguard_A
+       - [x] ESTOP
+       - [x] Camera_Light
+       - [x] Error_Code
+       - [x] Joint_Angle
+       - [x] Coord_Robot_Flange
+       - [x] Coord_Robot_Tool
+       - [x] TCP_Force
+       - [x] TCP_Force3D
+       - [x] TCP_Speed
+       - [x] TCP_Speed3D
+       - [x] Joint_Speed
+       - [x] Joint_Torque
+       - [x] Project_Speed
+       - [x] MA_Mode
+       - [x] Robot Light
+       - [x] Ctrl_DO0~DO7
+       - [x] Ctrl_DI0~DI7
+       - [x] Ctrl_AO0
+       - [x] Ctrl_AI0~AI1
+       - [x] END_DO0~DO3
+       - [x] END_DI0~DI2
+       - [x] END_AI0
+
+ ![10](src/figures/ethernet2.png)
+
+Another way to set the __Ethernet Slave Data Table__ settings is to directly import the transmit file from [TM ROS Driver vs TMflow software Usage : Import Data Table Setting](https://github.com/TechmanRobotInc/TM_Export).
+
 
 
 
