@@ -2,14 +2,14 @@
 # __User Guide for TM ROS Driver__
 
 This repo is forked from [tmr_ros1]( https://github.com/TechmanRobotInc/tmr_ros1) that provides ROS support for techman robots. The original repo has been further developed using the existing driver to simulate and handle an __external obstacle detection__. <br/>
-Specifically the repo has been tested for cobot __TM5-900__ with __ROS Melodic__ under __Ubuntu 18.04__.<br/>
+Specifically the repo has been tested for cobot __TM5-900__ with __TMFlow 1.82.5100__ __ROS Melodic__ under __Ubuntu 18.04__.<br/>
 
-For further information about the existing ROS driver refers to [tmr_ros1]( https://github.com/TechmanRobotInc/tmr_ros1); for details about the project refers to [Report](src/documents/Report.pdf).<br/>
+For further information about the existing ROS driver refers to [tmr_ros1]( https://github.com/TechmanRobotInc/tmr_ros1); for details about the project refers to [report](src/documents/Report.pdf).<br/>
 
 ## __1.ROS Driver__
 
-The existing TM ROS driver connects to _TMflow Ethernet Slave_ and to a _Listen node_ (running at a _TMflow project_). This allows the driver to get the robot state and to control the robot using _External Script_. <br/>
-The TM ROS driver for ROS1 is a __single ROS node__ that handles robot-pc communication offering the following interfaces:
+The existing TM ROS driver is a __single ROS node__ that handles robot(TMFlow)-pc(ROS) communication through an ethernet cable (rj45), implementing the TCP/IP communication protocols described in [espression_editor](src/documents/i848_tm_expression_editor_and_listen_node_reference_manual.pdf).  In details the driver connects to _TMflow Ethernet Slave_ and to a _Listen node_ running at a _TMflow project_. Thanks to this the user can get the robot state and can control the robot using _External Script_. <br/>
+The TM ROS driver node also offers the following interfaces:
 
 > __Action Server__
 >
@@ -28,7 +28,7 @@ feedback state include robot position, error code, io state, etc.
 > - _/tm_driver/send_script_ (see _tm_msgs/srv/SendScript.srv_) :  
 send external script to _Listen node_  
 > - _/tm_driver/set_event_ (see _tm_msgs/srv/SetEvent.srv_) :  
-send "Stop", "Pause" or "Resume" command to _Listen node_  
+send command like "Stop", "Pause" and "Resume"  to _Listen node_  
 > - _/tm_driver/set_io_ (see _tm_msgs/srv/SetIO.srv_) :  
 send digital or analog output value to _Listen node_  
 > - _/tm_driver/set_position (see _tm_msgs/srv/SetPosition.srv_) :  
@@ -97,19 +97,30 @@ source [PATH]/[WORKING_DIRECTORY_NAME]/devel/setup.bash
 ![5](src/figures/source.png)
 
 ### &sect; __TMFlow setup__
+On the robot side the steps to enable the communication are the following:
+
+1. Create a new TMFlow project with an infinite loop on a __Listen__ node. Just drag the node from the _nodes menu_, the node parameters can be left to their default value.
+
+![6](src/figures/listen2.png)
+
+When the process enters the Listen Node, it stays in the Listen Node until it triggers and leaves with one of the two exit condition:
+__Pass__: executes ScriptExit() or item stopped
+__Fail__: connection Timeout or data Timeout or before the Socket Server been established successfully, the flow process has entered the Listen Node
+So then connect the _Fail Path_ to a _Stop_ node and the _Pass Path_ to a _Goto_ node to loop back to the listen node.
+
+ ![7](src/figures/listen1.png)
+
+2. The `Network` settings in __System &rArr; Network__ can be left to their __default__ value.
+This step is different from what [tmr_ros1]( https://github.com/TechmanRobotInc/tmr_ros1) describes. Connecting the ethernet cable to the only one __LAN__ port (not the GigE ports) of the control box, the Ethernet Slave and the Listen open on __169.254.77.215__.
+It is sufficient to set the static ip of the Virtual Machine so that it belongs to the same private network (for example 169.254.77.210).
+
+ ![8](src/figures/open.png)
+
+:bulb:__WARNING__ __Not connect__ the ethernet cable to a __GigE LAN__ port otherwise the Ethernet Slave and the Listen open on the local host 127.0.0.1 and the connection fails
+:bulb:__WARNING__ If the Ethernet Slave and the Listen still open on the local host 127.0.0.1 try the other port though
 
 
-> The __Listen node__: a socket server can be established and be connected with ROS by an external device to communicate according to the [defined protocol](https://assets.omron.eu/downloads/manual/en/v1/i848_tm_expression_editor_and_listen_node_reference_manual_en.pdf). The user can make the robot communicate with the user's ROS (remote) computer equipment through a wired network, when all the network parameters in the _Network setting_ are set.<br/>
->
-> 1. Create a _Listen task_ of flow project of __TMflow__ software, and then drag the __Listen node__ from the _nodes menu_ onto the project flow, as shown below.
-> [![1](figures/1.png)](https://www.youtube.com/watch?v=LuKE2wVNn5Y)
->
-> 2. Set the `Network` settings: mouse-click to enter the page of __System &rArr; Network__ in order.  
-Example: Set the Subnet mask: 255.255.255.0 and IP address 192.168.10.2  
-Note: Set the network mask, and the communication with the TM Robot must be in the set domain.  
-> ![2](figures/2.png)
->
-> 3. Set the __Ethernet Slave Data Table__ settings: mouse-click to enter the page of __Setting &rArr; Connection &rArr; Ethernet Slave__ in order.   
+3. Set the __Ethernet Slave Data Table__ settings: mouse-click to enter the page of __Setting &rArr; Connection &rArr; Ethernet Slave__ in order.   
 Enable the `Data Table Setting` item and check the following boxes as item predefined to receive/send specific data:
 >
 >       - [x] Robot_Error
