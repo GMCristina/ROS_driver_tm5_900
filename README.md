@@ -2,13 +2,13 @@
 # __User Guide for TM ROS Driver__
 
 This repo is forked from [tmr_ros1]( https://github.com/TechmanRobotInc/tmr_ros1) that provides ROS support for techman robots. The original repo has been further developed using the existing driver to simulate and handle an __external obstacle detection__. <br/>
-Specifically the repo has been tested for cobot __TM5-900__ with __TMFlow 1.82.5100__ __ROS Melodic__ under __Ubuntu 18.04__.<br/>
+Specifically the repo has been tested for cobot __TM5-900__ with __TMFlow 1.82.5100__ and with __ROS Melodic__ under __Ubuntu 18.04__.<br/>
 
 For further information about the existing ROS driver refers to [tmr_ros1]( https://github.com/TechmanRobotInc/tmr_ros1); for details about the project refers to [report](src/documents/Report.pdf).<br/>
 
 ## __1.ROS Driver__
 
-The existing TM ROS driver is a __single ROS node__ that handles robot(TMFlow)-pc(ROS) communication through an ethernet cable (rj45), implementing the TCP/IP communication protocols described in [espression_editor](src/documents/i848_tm_expression_editor_and_listen_node_reference_manual.pdf).  In details the driver connects to _TMflow Ethernet Slave_ and to a _Listen node_ running at a _TMflow project_. Thanks to this the user can get the robot state and can control the robot using _External Script_. <br/>
+The existing TM ROS driver is a __single ROS node__ that handles robot(TMFlow)-pc(ROS) communication through an ethernet cable (rj45), implementing the TCP/IP communication protocols described in [espression_editor](src/documents/tm_expression_editor_and_listen_node_manual.pdf).  In details the driver connects to _TMflow Ethernet Slave_ and to a _Listen node_ running at a _TMflow project_. Thanks to this the user can get the robot state and can control the robot using _External Script_. <br/>
 The TM ROS driver node also offers the following interfaces:
 
 > __Action Server__
@@ -40,7 +40,7 @@ send motion command to _Listen node_, the motion type include PTP, LINE, CIRC an
 The steps to connect to the robot and to test the code are the following:
 
 ### &sect; __Ubuntu 18.04 Virtual Machine setup__
-If necessary create a virtual machine with Ubuntu 18.04 (Bionic). The steps to create the virtual machine with VirtualBox can be found in [Ubuntu](https://www.toptechskills.com/linux-tutorials-courses/how-to-install-ubuntu-1804-bionic-virtualbox/).
+If necessary create a virtual machine with __Ubuntu 18.04__ (Bionic). The steps to create the virtual machine with VirtualBox can be found in [Ubuntu](https://www.toptechskills.com/linux-tutorials-courses/how-to-install-ubuntu-1804-bionic-virtualbox/).
 It is raccomended to give the virtual machine at least half the RAM of the host and to reserve about 30GB for the virtual hard disk.
 It is suggested to install the _VirtualBox Guest Additions_. <br/>
 
@@ -57,7 +57,7 @@ The correct network adapter must be selected (the physical adapter used for the 
 
 ![3](src/figures/net2.png)
 
-Finally a proper __static IP__ address must be assigned to the VM so that the VM and the robot belong to the same private network.
+Finally a proper __static IP__ address must be assigned to the VM so that the VM and the robot belong to the same __private network__.
 
 ![4](src/figures/net3.png)
 
@@ -98,7 +98,7 @@ source [PATH]/[WORKING_DIRECTORY_NAME]/devel/setup.bash
 
 ###  &sect; __Physical connection to TM ROBOT__
 The robot and the pc must be physically connected through an __ethernet cable__ (rj45). <br/>
-:bulb:__WARNING__ __Connect__ the ethernet cable to the __LAN__ port of the control box.
+:bulb:__WARNING__ Connect the ethernet cable to the __LAN__ port of the control box.
 
 <p align="center">
   <img alt="1" src="src/figures/LAN.jpg" width="45%">
@@ -113,21 +113,21 @@ On the robot side the steps to enable the communication are the following:
 
 ![6](src/figures/listen2.png)
 
-When the process enters the Listen Node, it stays in the Listen Node until it triggers and leaves with one of the two exit condition:
-__Pass__: executes ScriptExit() or item stopped
-__Fail__: connection Timeout or data Timeout or before the Socket Server been established successfully, the flow process has entered the Listen Node
+When the process enters the Listen Node, it __stays in the Listen Node__ until it triggers and leaves with one of the two exit condition:<br/>
+__Pass__: executes ScriptExit() or item stopped <br/>
+__Fail__: connection Timeout or data Timeout or before the Socket Server been established successfully, the flow process has entered the Listen Node <br/>
 So then connect the _Fail Path_ to a _Stop_ node and the _Pass Path_ to a _Goto_ node to loop back to the listen node.
 
  ![7](src/figures/listen1.png)
 
-2. The `Network` settings in __System &rArr; Network__ can be left to their __default__ value.
+2. The network settings in __System &rArr; Network__ can be left to their __default__ value.
 This step is different from what [tmr_ros1]( https://github.com/TechmanRobotInc/tmr_ros1) describes. Connecting the ethernet cable to the only one __LAN__ port (not the GigE ports) of the control box, the Ethernet Slave and the Listen open on __169.254.77.215__.
-It is sufficient to set the static ip of the Virtual Machine so that it belongs to the same private network (for example 169.254.77.210).
+It is sufficient to set the static ip of the Virtual Machine so that it belongs to the same private network (__for example 169.254.77.210__).
 
  ![8](src/figures/open.png)
 
 :bulb:__WARNING__ __Not connect__ the ethernet cable to a __GigE LAN__ port otherwise the Ethernet Slave and the Listen open on the local host 127.0.0.1 and the connection fails <br/>
-:bulb:__WARNING__ If the Ethernet Slave and the Listen still open on the local host 127.0.0.1 try the other port though
+:bulb:__WARNING__ If the Ethernet Slave and the Listen still open on the __local host 127.0.0.1__ try the other port though
 
 
 3. Enable the __Ethenet Slave__ and set the __Ethernet Slave Data Table__ from __Setting &rArr; Connection &rArr; Ethernet Slave__.
@@ -191,16 +191,16 @@ roslaunch obstacle_avoidance [LAUNCH_FILE_NAME]
 
 
 ###  &sect; __test_functions__
-This launch file starts the __tm_driver__ node for the robot-pc communication and a __send_script_node__ to test the __External Script__commands available (for the commands refers to [espression_editor](src/documents/i848_tm_expression_editor_and_listen_node_reference_manual.pdf)). <br/>
-To test a new command just create a string variable with the desired command and assign it to _srv.request.script_.
+This launch file starts the __tm_driver__ node for the robot-pc communication and a __send_script_node__ to test the __External Script__ commands available (for the commands refers to [espression_editor](src/documents/tm_expression_editor_and_listen_node_manual.pdf)). <br/>
+To __test a new command__ just create a string variable with the desired command and assign it to _srv.request.script_.
 
 ![14](src/figures/test.png)
 
 ###  &sect; __loop_trajectory__
 This launch file starts the following nodes:
 - __tm_driver__: the usual node for the robot-pc communication
-- __loop_trajectory_node__: this node gives the robot the commands to execute a predefined trajectory in a loop; here the trajectory is just Joint1 (shoulder_1_joint) rotating by +- 90°
-- __obstacle_avoidance_naive_loop_node__: this node handles the obstacle avoidance; when ad obstacle is detected it gives the robot the commands to stop the current trajectory and to return to the home pose
+- __loop_trajectory_node__: this node gives the robot the commands to execute a __predefined trajectory__ in a loop; here the trajectory is just Joint1 (shoulder_1_joint) rotating by +- 90°
+- __obstacle_avoidance_naive_loop_node__: this node handles the obstacle avoidance; when ad obstacle is detected it gives the robot the commands to __stop__ the current trajectory and to return to the __home__ pose
 
 To simulate an obstacle detection the __obstacle_detection_naive_node__ must be run with the following command:
 
@@ -211,18 +211,18 @@ This node publishes a custom naive __ObstacleDetected__ message to the topic __t
 So launching the __loop_trajectory.launch__ the robot starts a predefined trajectory in a loop; when the __obstacle_detection_naive_node__ is run the robot stops and returns to the home pose.
 
 ###  &sect; __pick_place_trajectory__
-This launch file is similar to the previous one; the only difference is a more complex predefined trajectory that simulates a pick and place task executed in a loop.
+This launch file is similar to the previous one; the only difference is a more complex __predefined trajectory__ that simulates a __pick and place task__ executed in a loop.
 The launch file starts the following nodes:
 - __tm_driver__: the usual node for the robot-pc communication
-- __pick_place_trajectory_node__: this node gives the robot the commands to execute a predefined trajectory in a loop; here the trajectory is sequence of 4 points to simulate a pick and place task
-- __obstacle_avoidance_naive_pick_node__: this node handles the obstacle avoidance; when ad obstacle is detected it gives the robot the commands to stop the current trajectory and to return to the home pose
+- __pick_place_trajectory_node__: this node gives the robot the commands to execute a __predefined trajectory__ in a loop; here the trajectory is sequence of 4 points to simulate a pick and place task
+- __obstacle_avoidance_naive_pick_node__: this node handles the obstacle avoidance; when ad obstacle is detected it gives the robot the commands to __stop__ the current trajectory and to return to the __home__ pose
 
 To simulate an obstacle detection the same __obstacle_detection_naive_node__ must be run.
 
 ###  &sect; __moveit_trajectory__
 This launch file allows the same obstacle avoidance logic of the previous ones but with a trajectory not predefined but planned through __MoveIt__. <br/>
 MoveIt is an __RViz plugin__ and __Rviz__ is the primary visualizer in ROS. The MoveIt Rviz plugin allows you to setup virtual environments (scenes), create __start__ and __goal states__ for the robot interactively, test various __motion planners__ and visualize the output. <br/>
-In [tmr_ros1]( https://github.com/TechmanRobotInc/tmr_ros1) there is already a launch file to control the robot through MoveIt that can still be launched with the command:
+In [tmr_ros1]( https://github.com/TechmanRobotInc/tmr_ros1) there is already a launch file to __control the robot through MoveIt__ that can still be launched with the command:
 
 ```
 roslaunch tm5_900_moveit_config tm5_900_moveit_planning_execution.launch sim:=False robot_ip:=<robot_ip_address>
@@ -237,4 +237,4 @@ With the __Plan__ buttom MoveIt plans and shows the trajectory from the start st
 
 ![16](src/figures/moveit.png)
 
-Starting from this a new launch file has been created adding a node __obstacle_avoidance_naive_moveit_node__. This node, as the others, handles the obstacle avoidance, giving the robot the commands to stop the current trajectory and to return to the home pose. The obstacle detection can be simulated running the same __obstacle_detection_naive_node__.
+Starting from this a new launch file has been created adding a node __obstacle_avoidance_naive_moveit_node__. This node, as the others, handles the obstacle avoidance, giving the robot the commands to __stop__ the current trajectory and to return to the __home__ pose. The obstacle detection can be simulated running the same __obstacle_detection_naive_node__.
