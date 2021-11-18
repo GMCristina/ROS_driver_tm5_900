@@ -96,6 +96,12 @@ source [PATH]/[WORKING_DIRECTORY_NAME]/devel/setup.bash
 ```
 ![5](src/figures/source.png)
 
+###  &sect; __Physical connection to TM ROBOT__
+The robot and the pc must be physically connected through an ethernet cable (rj45).
+:bulb:__WARNING__ __Connect__ the ethernet cable to the __LAN__ port of the control box.
+
+![11](src/figures/LAN.jpg) | ![12](src/figures/LAN1.jpg)
+
 ### &sect; __TMFlow setup__
 On the robot side the steps to enable the communication are the following:
 
@@ -160,11 +166,6 @@ It is sufficient to set the static ip of the Virtual Machine so that it belongs 
 Another way to set the __Ethernet Slave Data Table__ settings is to directly import the transmit file from [TM ROS Driver vs TMflow software Usage : Import Data Table Setting](https://github.com/TechmanRobotInc/TM_Export).
 
 
-
-
-###  &sect; __Physical connection to TM ROBOT__
-> Static IP of remote connection network settings through the wired network .<br/>
-> 3. Check Internet connection: start a terminal to test the connectivity with the target host _TM ROBOT_, by typing ping 192.168.10.2
 
 
 ## __3. Usage__
