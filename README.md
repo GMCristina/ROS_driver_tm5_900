@@ -100,7 +100,11 @@ source [PATH]/[WORKING_DIRECTORY_NAME]/devel/setup.bash
 The robot and the pc must be physically connected through an ethernet cable (rj45).
 :bulb:__WARNING__ __Connect__ the ethernet cable to the __LAN__ port of the control box.
 
-![11](src/figures/LAN.jpg) | ![12](src/figures/LAN1.jpg)
+<p align="center">
+  <img alt="1" src="src/figures/LAN.jpg" width="45%">
+&nbsp; &nbsp; &nbsp; &nbsp;
+  <img alt="2" src="src/figures/LAN1.jpg" width="45%">
+</p>
 
 ### &sect; __TMFlow setup__
 On the robot side the steps to enable the communication are the following:
