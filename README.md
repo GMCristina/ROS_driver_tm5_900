@@ -4,7 +4,7 @@
 This repo is forked from [tmr_ros1]( https://github.com/TechmanRobotInc/tmr_ros1) that provides ROS support for techman robots. The original repo has been further developed using the existing driver to simulate and handle an __external obstacle detection__. <br/>
 Specifically the repo has been tested for cobot __TM5-900__ with __ROS Melodic__ under __Ubuntu 18.04__.<br/>
 
-For further information about the existing ROS driver refers to [tmr_ros1]( https://github.com/TechmanRobotInc/tmr_ros1); for details about the project refers to _documents/Report.pdf_.<br/>
+For further information about the existing ROS driver refers to [tmr_ros1]( https://github.com/TechmanRobotInc/tmr_ros1); for details about the project refers to [Report](src/documents/Report.pdf).<br/>
 
 ## __1.ROS Driver__
 
@@ -92,7 +92,7 @@ The compilation creates the two new folder _build_ and _devel_.
 It is suggested to modify the _.bashrc_ file to automatically add the workspace enviroment to your bash session every time a new shell is launched. Otherwise it must be source in every new shell in order to launch launch files or run nodes.
 
 ```
-source [PATH]/[WORKING_DIRECTORY_NAME]/devel/setup.bash 
+source [PATH]/[WORKING_DIRECTORY_NAME]/devel/setup.bash
 ```
 ![5](src/figures/source.png)
 
