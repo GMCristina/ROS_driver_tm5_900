@@ -4,7 +4,7 @@
 This repo is forked from [tmr_ros1]( https://github.com/TechmanRobotInc/tmr_ros1) that provides ROS support for techman robots. The original repo has been further developed using the existing driver to simulate and handle an __external obstacle detection__. <br/>
 Specifically the repo has been tested for cobot __TM5-900__ with __TMFlow 1.82.5100__ and with __ROS Melodic__ under __Ubuntu 18.04__.<br/>
 
-For further information about the existing ROS driver refers to [tmr_ros1]( https://github.com/TechmanRobotInc/tmr_ros1); for details about the project refers to [report](src/documents/Report.pdf).<br/>
+For further information about the existing ROS driver refers to [tmr_ros1]( https://github.com/TechmanRobotInc/tmr_ros1); for details about the project refers to [report](src/documents/Relazione_progetto_cobot_TM5_900.pdf).<br/>
 
 ## __1.ROS Driver__
 
