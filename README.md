@@ -68,7 +68,7 @@ Despite this, some packages (such as Moveit) could still be missing, giving erro
 ```
 sudo apt install ros-melodic-PACKAGE
 ```
-If ROS Melodic is the only ROS version curruntly used, it is suggested to modify the _.bashrc_ file (is an hidden file) to automatically add the ROS environment variables to your bash session every time a new shell is launched (step 1.5 of [Melodic](http://wiki.ros.org/melodic/Installation/Ubuntu)).
+If ROS Melodic is the only ROS version currently used, it is suggested to modify the _.bashrc_ file (is an hidden file) to automatically add the ROS environment variables to your bash session every time a new shell is launched (step 1.5 of [Melodic](http://wiki.ros.org/melodic/Installation/Ubuntu)).
 
 ```
 echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
